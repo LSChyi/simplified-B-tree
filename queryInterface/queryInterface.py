@@ -38,13 +38,14 @@ class QueryInterface:
         print("B+ tree query interface")
         print("enter 'exit' to leave, 'help' for help")
 
-    def help(self, params):
-        if params and len(params) == 1:
-            if params[0] not in self.commands:
-                print("The command '{}' does not support!".format(params[0]))
+    def help(self, *params):
+        if params and len(params[0]) == 1:
+            command = params[0][0]
+            if command not in self.commands:
+                print("The command '{}' does not support!".format(command))
             else:
-                print(self.commands[params[0]])
-                print("usage: \n\t{}".format(self.commands[params[0]].usage))
+                print(self.commands[command])
+                print("usage: \n\t{}".format(self.commands[command].usage))
 
         else:
             self.greet()

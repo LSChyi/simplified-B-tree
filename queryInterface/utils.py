@@ -1,2 +1,2 @@
-def emptyFn(params):
+def emptyFn(*params):
     pass
