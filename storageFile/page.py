@@ -1,7 +1,10 @@
+from storageFile.utils import *
+
 class Page:
     def __init__(self, recordSize):
         self.recordSize = recordSize
         self.record = []
+        self.emptySize = 512 - 4 # a int for tracking how many records inside this page
 
     @staticmethod
     def isValidSize(size):
@@ -19,3 +22,18 @@ class Page:
             return False
         else:
             return True
+
+    def insert(self, record):
+        sid = None
+        if self.emptySize >= self.recordSize:
+            self.emptySize -= (self.recordSize + 4)
+            if None in self.record:
+                sid = self.record.index(None)
+                self.record[sid] = record
+            else:
+                sid = len(self.record)
+                self.record.append(record)
+
+            return sid 
+        else:
+            return None
