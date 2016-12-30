@@ -68,6 +68,32 @@ def IFn(*params):
 
     print("{} record(s) stored".format(len(dataToInsert)))
 
+def pFn(*params):
+    commandParams = params[0]
+    databaseTables = params[1]
+
+    if len(commandParams) != 2:
+        print("number of parameters not match")
+        return
+
+    tableName = commandParams[0]
+    table = None
+    for dataTable in databaseTables:
+        if tableName == dataTable.name:
+            table = dataTable
+            break
+    else:
+        print("relation table '{}' not found".format(tableName))
+        return
+
+    try:
+        pageId = int(commandParams[1])
+    except Exception as e:
+        print(e)
+        return
+
+    table.showPageContent(pageId) 
+
 def cFn(*params):
     commandParams = params[0]
     databaseTables = params[1]

@@ -41,6 +41,13 @@ class RelationTable:
 
         # TODO insert into B+ tree
 
+    def showPageContent(self, pageId):
+        if pageId < len(self.pages):
+            self.pages[pageId].showContent()
+        else:
+            print("the page id does not exist")
+            return
+
     def showStatistics(self):
         indexPageNum = 0 # TODO get index page number from B+ tree
 
