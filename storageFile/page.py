@@ -39,6 +39,7 @@ class Page:
             return None
 
     def showContent(self):
-        print("Number of slots: {}".format(len(self.records)))
+        print("Number of slots: {}, number of occupied slots: {} number of empty slots: {}".format(len(self.records), len([ x for x in self.records if x is not None ]), len([ x for x in self.records if x is None ])))
+        print(" sid  key")
         for index, record in enumerate(self.records):
-            print("[{}] {}".format(index, record))
+            print("[{:>3}] {} {}".format(index, record[0], record[1:]))

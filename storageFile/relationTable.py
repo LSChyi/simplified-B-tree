@@ -4,7 +4,7 @@ from storageFile.utils import *
 class RelationTable:
     def __init__(self, name, keyType, recordSize):
         self.name = name
-        self.pages = [ Page(recordSize) ]
+        self.pages = []
         self.bPlusTree = None # TODO, initialize a empty B+ tree
         self.keyType = keyType
         self.recordSize = recordSize
@@ -42,7 +42,7 @@ class RelationTable:
         # TODO insert into B+ tree
 
     def showPageContent(self, pageId):
-        if pageId < len(self.pages):
+        if 0 <= pageId < len(self.pages):
             self.pages[pageId].showContent()
         else:
             print("the page id does not exist")
