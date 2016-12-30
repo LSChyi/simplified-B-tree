@@ -67,3 +67,20 @@ def IFn(*params):
         table.insert(data)
 
     print("{} record(s) stored".format(len(dataToInsert)))
+
+def cFn(*params):
+    commandParams = params[0]
+    databaseTables = params[1]
+
+    if len(commandParams) != 1:
+        print("number of parameters not match")
+        return
+
+    tableName = commandParams[0]
+    for dataTable in databaseTables:
+        if tableName == dataTable.name:
+            dataTable.showStatistics()
+            break
+    else:
+        print("relation table '{}' not found".format(tableName))
+        return

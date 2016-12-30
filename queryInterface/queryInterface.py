@@ -13,7 +13,7 @@ class QueryInterface:
             "Scan": Command("Scan", "scan index file", "Scan Relation-name", utils.emptyFn),
             "q": Command("q", "single vaule index search and range query", "single value: q Relation-name key-value\nrange query: q Relation-name key-value1 key-value2", utils.emptyFn),
             "p": Command("p", "display data page of a relation/table", "p relation-name page-id", utils.emptyFn),
-            "c": Command("c", "file, index statistics", "c relation-name", utils.emptyFn),
+            "c": Command("c", "file, index statistics", "c relation-name", utils.cFn),
         }
         self.relationTables = relationTables
 

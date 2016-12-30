@@ -40,3 +40,8 @@ class RelationTable:
             sid = self.pages[-1].insert(record)
 
         # TODO insert into B+ tree
+
+    def showStatistics(self):
+        indexPageNum = 0 # TODO get index page number from B+ tree
+
+        print("{} index page(s), {} data page(s)".format(indexPageNum, len(self.pages)))
