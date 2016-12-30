@@ -1,14 +1,13 @@
 import shlex
 from queryInterface import utils
 from queryInterface.command import Command
-from storageFile.relationTable import RelationTable
 
 class QueryInterface:
     def __init__(self, relationTables):
         self.commands = {
             "help": Command("help", "print all of the support commands", "help [command]", self.help),
             "exit": Command("exit", "leave query interface", "", utils.emptyFn),
-            "R": Command("R", "specify the name of the relation", "R, Relation-name, key-type, record-length", utils.emptyFn),
+            "R": Command("R", "specify the name of the relation", "R, Relation-name, key-type, record-length", utils.RFn),
             "I": Command("I", "insert data, Could have multiple (key-value, record), separated by ';'", "I, Relation-name, key-value [; key-value]", utils.emptyFn),
             "D": Command("D", "delete record", "D, Relation-name, key-value", utils.emptyFn),
             "Scan": Command("Scan", "scan index file", "Scan Relation-name", utils.emptyFn),
@@ -29,7 +28,9 @@ class QueryInterface:
             if command not in self.commands:
                 print("The command '{}' does not support!".format(command))
             else:
-                self.commands[command].doIt(params)
+                self.commands[command].doIt(params, self.relationTables)
+
+            print("")
             
         print("Bye")
 
@@ -54,4 +55,3 @@ class QueryInterface:
             for command in order:
                 print(self.commands[command])
 
-        print("")
