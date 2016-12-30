@@ -1,9 +1,10 @@
 import shlex
 from queryInterface import utils
 from queryInterface.command import Command
+from storageFile.relationTable import RelationTable
 
 class QueryInterface:
-    def __init__(self):
+    def __init__(self, relationTables):
         self.commands = {
             "help": Command("help", "print all of the support commands", "help [command]", self.help),
             "exit": Command("exit", "leave query interface", "", utils.emptyFn),
@@ -15,6 +16,7 @@ class QueryInterface:
             "p": Command("p", "display data page of a relation/table", "p relation-name page-id", utils.emptyFn),
             "c": Command("c", "file, index statistics", "c relation-name", utils.emptyFn),
         }
+        self.relationTables = relationTables
 
     def run(self):
         self.greet()

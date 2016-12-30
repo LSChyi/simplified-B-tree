@@ -1,4 +1,6 @@
 from queryInterface.queryInterface import QueryInterface
 
-interface = QueryInterface()
+relationTables = []
+
+interface = QueryInterface(relationTables)
 interface.run()
