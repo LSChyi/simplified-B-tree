@@ -1,8 +1,10 @@
+from storageFile.utils import *
+
 class Page:
-    def __init__(self, pid, recordSize):
-        self.pid = pid
+    def __init__(self, recordSize):
         self.recordSize = recordSize
-        self.record = []
+        self.records = []
+        self.emptySize = 512 - 4 # a int for tracking how many records inside this page
 
     @staticmethod
     def isValidSize(size):
@@ -20,3 +22,23 @@ class Page:
             return False
         else:
             return True
+
+    def insert(self, record):
+        sid = None
+        if self.emptySize >= self.recordSize:
+            self.emptySize -= (self.recordSize + 4)
+            if None in self.records:
+                sid = self.records.index(None)
+                self.records[sid] = record
+            else:
+                sid = len(self.records)
+                self.records.append(record)
+
+            return sid 
+        else:
+            return None
+
+    def showContent(self):
+        print("Number of slots: {}".format(len(self.records)))
+        for index, record in enumerate(self.records):
+            print("[{}] {}".format(index, record))
