@@ -1,6 +1,5 @@
 class Page:
-    def __init__(self, pid, recordSize):
-        self.pid = pid
+    def __init__(self, recordSize):
         self.recordSize = recordSize
         self.record = []
 
