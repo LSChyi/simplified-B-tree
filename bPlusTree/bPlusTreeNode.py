@@ -2,8 +2,10 @@ import math
 
 class bPlusTreeNode():
 
-    def __init__(self, parent, order):
+    def __init__(self, parent, order, pageMgr):
         # Using Wikipedia's definition of order, so node must have at least order/2 keys
+        self.pageMgr = pageMgr
+        self.pageMgr.incNodeCount()
         self._order = order
         self._parent = parent
         self._keyNode = []

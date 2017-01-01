@@ -2,8 +2,11 @@ from bPlusTree.bPlusTreeNode import bPlusTreeNode
 
 class bPlusTreeLeafNode(bPlusTreeNode):
 
-    def __init__(self, parent, order):
-        bPlusTreeNode.__init__(self, order)
+    def __init__(self, parent, order, pageMgr):
+        bPlusTreeNode.__init__(self, parent, order, pageMgr)
+        # Parent class increases node count but this is a leaf
+        self.pageMgr.decNodeCount()
+        self.pageMgr.incLeafCount()
         self._valueNode = []
         self._neighborPtr = None
 
