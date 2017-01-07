@@ -1,4 +1,5 @@
 from bPlusTree.bPlusTreeNode import bPlusTreeNode
+import math
 
 class bPlusTreeLeafNode(bPlusTreeNode):
 
@@ -14,11 +15,7 @@ class bPlusTreeLeafNode(bPlusTreeNode):
         self._neighborPtr = neighbor
 
     def propogateOverflow(self, propKey, childPtr):
-        # If this was originally a root node, create the parent node first
-        if self.checkRoot == True:
-            newNode = bPlusTreeNode(None, self._order)
-            self._parent = newNode
-
+        # Helper function for insert()
         self._parent.propogateOverflow(propKey, childPtr)
 
     def insert(self, record):
@@ -55,18 +52,66 @@ class bPlusTreeLeafNode(bPlusTreeNode):
         if length > self._order:
             print("Something went wrong.")
 
+    def propogateUnderflow(self):
+        # Helper function for delete()
+        # TODO
 
     def delete(self, record):
         # TODO
+        # First check if the key exists
+        if key in self._keyNode:
+            idx = self._keyNode.index(key)
+        else:
+            print("Attempting to delete record with invalid key.")
+            return
+
+        del self._keyNode[idx]
+        del self._valueNode[idx]
+
+        # If this is the root node, it's ok
+        if self.checkRoot() == True:
+            return
+
+        # Check if there are enough elements left
+        length = len(self._keyNode)
+        if length >= math.floor(self._order/2):
+            return
+        else:
+            # Check if redistribution is possible
+            neighborLength = len(self._neighborPtr._keyNode)
+            if (neighborLength - 1) >= math.floor(self._order/2):
+                redistKey = self._neighborPtr._keyNode.pop(0)
+                redistValue = self._neighborPtr._valueNode.pop(0)
+                self._keyNode.append(redistKey)
+                self._valueNode.append(redistValue)
+                # Change parent node's key
+                parentPtrIdx = self._parent._ptrNode.index(self)
+                self._parent._valueNode[parentPtrIdx] = self._neighborPtr._keyNode[0]
+            # Merge if redistribution fails
+            else:
+                # TODO
 
     def find(self, key):
         if key in self._keyNode:
-            idx =  self._keyNode.index(key)
+            idx = self._keyNode.index(key)
             return self._valueNode[idx]
         else:
             print("Key can not be found in the B+ tree.")
             return
 
     def range(self, key1, key2, listRid):
-        # TODO
+        # Returns all key1 <= x < key2
         # Once it reaches the appropriate leaf node scan the neighboring leaf nodes until key > key2
+
+        length = len(self._keyNode)
+
+        for i in range(0, length):
+            if self._keyNode[i] >= key1:
+                if self._keyNode[i] < key2:
+                    listRid.append(self._valueNode[i])
+                else:
+                    return
+
+        # Keep checking the leaf nodes to the right
+        if (self._neighborPtr != None):
+            self._neighborPtr.range(key1, key2, listRid)

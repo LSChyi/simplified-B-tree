@@ -18,6 +18,7 @@ class bPlusTreeNode():
             return False
 
     def propogateOverflow(self, propKey, childPtr):
+        # Helper function for insert()
         # If this was originally a root node, create the parent node first
         if self.checkRoot == True:
             newNode = bPlusTreeNode(None, self._order)
@@ -43,7 +44,7 @@ class bPlusTreeNode():
             halfIdx = math.floor(self._order)
             propKey = self._keyNode[halfIdx]
             newNode = bPlusTreeNode(self._parent, self._order)
-            # No copy up
+            # No copy up (push up only)
             newLeaf._keyNode = self._keyNode[halfIdx+1:]
             newLeaf._ptrNode = self._valueNode[halfIdx+1:]
             self._keyNode = self._keyNode[0:halfIdx]
@@ -67,8 +68,24 @@ class bPlusTreeNode():
             self._ptrNode[length].insert(record)
             hasFoundPtr = True
 
-    def delete(self, record):
+    def propogateUnderflow(self):
+        # Helper function for delete()
         # TODO
+
+    def delete(self, record):
+        # Find the next node to trasverse
+        length = len(self._keyNode)
+        hasFoundPtr = False
+
+        for i in range(0, length):
+            if self._keyNode[i] > record.key:
+                self._ptrNode[i].delete(record)
+                hasFoundPtr = True
+                break
+
+        if hasFoundPtr == False:
+            self._ptrNode[length].delete(record)
+            hasFoundPtr = True
 
     def find(self, key):
         # Find the next node to trasverse
@@ -86,5 +103,19 @@ class bPlusTreeNode():
             hasFoundPtr = True
 
     def range(self, key1, key2, listRid):
-        # TODO
+        # Returns all key1 <= x < key2
         # Find smallest unit > key1 then use _neighborPtr in the leaf node until key > key2 is reached
+
+        # Find the next node to trasverse
+        length = len(self._keyNode)
+        hasFoundPtr = False
+
+        for i in range(0, length):
+            if self._keyNode[i] > key1:
+                self._ptrNode[i].range(key1, key2, listRid)
+                hasFoundPtr = True
+                break
+
+        if hasFoundPtr == False:
+            self._ptrNode[length].range(key1, key2, listRid)
+            hasFoundPtr = True
