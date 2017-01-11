@@ -5,7 +5,7 @@ class LeafNode:
         self.sid = sid
 
     def rid(self):
-        return "{}{}".format(self.pid, self.sid)
+        return "{},{}".format(self.pid, self.sid)
 
     def __str__(self):
         return "{}:{}".format(self.value, self.rid())
