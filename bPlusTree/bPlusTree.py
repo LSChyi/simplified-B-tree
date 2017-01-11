@@ -2,6 +2,7 @@
 #from bPlusTree.nonLeafPage import NonLeafPage
 from leafPage import LeafPage
 from nonLeafPage import NonLeafPage
+from leafNode import LeafNode
 
 class bPlusTree:
     def __init__(self, keyType):
@@ -12,8 +13,8 @@ class bPlusTree:
     def search(self, key):
         pass
 
-    def insert(self, key):
-        result = self.root.insert(key)
+    def insert(self, record):
+        result = self.root.insert(record)
         if result is not None: # insert is not simple case
             self.root = NonLeafPage(self.order)
             self.root.nodes.append(result[0])
@@ -31,18 +32,19 @@ class bPlusTree:
 
 if __name__ == "__main__":
     testTree = bPlusTree("integer")
-    testTree.insert(6)
-    testTree.insert(7)
-    testTree.insert(8)
-    testTree.insert(9)
-    testTree.insert(10)
-    testTree.insert(11)
-    testTree.insert(20)
-    testTree.insert(21)
-    testTree.insert(22)
-    testTree.insert(13)
-    testTree.insert(14)
-    testTree.insert(15)
-    testTree.insert(1)
-    testTree.insert(2)
-    testTree.insert(3)
+    testTree.insert(LeafNode(7, 0, 1))
+    testTree.insert(LeafNode(6, 0, 2))
+    testTree.insert(LeafNode(8, 0, 3))
+    testTree.insert(LeafNode(9, 0, 4))
+    testTree.insert(LeafNode(10, 0, 5))
+    testTree.insert(LeafNode(11, 0, 6))
+    testTree.insert(LeafNode(20, 0, 7))
+    testTree.insert(LeafNode(21, 0, 8))
+    testTree.insert(LeafNode(22, 0, 9))
+    testTree.insert(LeafNode(23, 0, 10))
+    testTree.insert(LeafNode(13, 0, 11))
+    testTree.insert(LeafNode(14, 0, 12))
+    testTree.insert(LeafNode(15, 0, 13))
+    testTree.insert(LeafNode(1, 0, 14))
+    testTree.insert(LeafNode(2, 0, 15))
+    testTree.insert(LeafNode(3, 0, 16))

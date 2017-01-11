@@ -8,15 +8,15 @@ class LeafPage:
     def search(self, key):
         pass
 
-    def insert(self, key):
-        self.nodes.append(key)
-        self.nodes.sort()
+    def insert(self, record):
+        self.nodes.append(record)
+        self.nodes.sort(key=lambda x: x.value)
         if len(self.nodes) <= self.order * 2: # page not full, do simple insert
             #print(self)
             return None
         else: # page is full, should split. copy up middle value
             halfIdx = len(self.nodes)//2
-            copyUpValue = self.nodes[halfIdx]
+            copyUpValue = self.nodes[halfIdx].value
             newLeafPage = LeafPage(self.order)
             newLeafPage.nodes = self.nodes[halfIdx:]
             self.nodes = self.nodes[:halfIdx]
@@ -36,4 +36,8 @@ class LeafPage:
         return True if self.parent is None else False
 
     def __str__(self):
-        return "{}".format(self.nodes)
+        contentStr = "["
+        for node in self.nodes:
+            contentStr += node.__str__() + " "
+        contentStr += "]"
+        return contentStr

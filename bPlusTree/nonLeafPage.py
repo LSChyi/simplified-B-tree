@@ -8,17 +8,17 @@ class NonLeafPage():
     def search(self, key):
         pass
 
-    def insert(self, key):
+    def insert(self, record):
         targetIdx = None
         for idx, value in enumerate(self.nodes):
-            if key < value:
+            if record.value < value:
                 targetIdx = idx
                 break
         else:
             targetIdx = len(self.nodes)
 
         targetPage = self.ptrs[targetIdx]
-        result = targetPage.insert(key)
+        result = targetPage.insert(record)
         if result is not None: # insert is not simple case
             self.nodes.insert(targetIdx, result[0])
             self.ptrs.insert(targetIdx+1, result[2])
