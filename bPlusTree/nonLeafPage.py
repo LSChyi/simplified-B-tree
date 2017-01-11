@@ -116,7 +116,9 @@ class NonLeafPage():
             return result
 
     def rangeQuery(self, rangeStart, rangeStop):
-        pass
+        targetIdx = self.nextTraverseIdx(rangeStart)
+        targetPage = self.ptrs[targetIdx]
+        return targetPage.rangeQuery(rangeStart, rangeStop)
 
     def isRoot(self):
         return True if self.parent is None else False

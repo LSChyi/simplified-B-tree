@@ -22,7 +22,6 @@ class bPlusTree:
             self.root.ptrs.append(result[2])
             for page in self.root.ptrs:
                 page.parent = self.root
-            print("root split, root: {}, left: {}, right: {}".format(self.root, self.root.ptrs[0], self.root.ptrs[1]))
 
     def delete(self, key):
         result = self.root.delete(key)
@@ -33,7 +32,7 @@ class bPlusTree:
             return result[1]
 
     def rangeQuery(self, rangeStart, rangeStop):
-        pass
+        return self.root.rangeQuery(5, 20)
 
 if __name__ == "__main__":
     testTree = bPlusTree("integer")
@@ -201,3 +200,37 @@ if __name__ == "__main__":
     print("root: {}".format(testTree.root))
     for page in testTree.root.ptrs:
         print(page)
+    print("")
+
+    testTree = bPlusTree("integer")
+    testTree.insert(LeafNode(7, 0, 1))
+    testTree.insert(LeafNode(6, 0, 2))
+    testTree.insert(LeafNode(8, 0, 3))
+    testTree.insert(LeafNode(9, 0, 4))
+    testTree.insert(LeafNode(10, 0, 5))
+    testTree.insert(LeafNode(11, 0, 6))
+    testTree.insert(LeafNode(20, 0, 7))
+    testTree.insert(LeafNode(21, 0, 8))
+    testTree.insert(LeafNode(22, 0, 9))
+    testTree.insert(LeafNode(23, 0, 10))
+    testTree.insert(LeafNode(13, 0, 11))
+    testTree.insert(LeafNode(14, 0, 12))
+    testTree.insert(LeafNode(15, 0, 13))
+    testTree.insert(LeafNode(1, 0, 14))
+    testTree.insert(LeafNode(2, 0, 15))
+    testTree.insert(LeafNode(3, 0, 16))
+
+    print("level 1 root: {}".format(testTree.root))
+    print("level 2 non-leaf page: {}".format(testTree.root.ptrs[0]))
+    for page in testTree.root.ptrs[0].ptrs:
+        print(page)
+    print("")
+    print("level 2 non-leaf page: {}".format(testTree.root.ptrs[1]))
+    for page in testTree.root.ptrs[1].ptrs:
+        print(page)
+    print("")
+
+    print("test range query: from 5 to 20:")
+    nodes = testTree.rangeQuery(5, 20)
+    for node in nodes:
+        print(node)

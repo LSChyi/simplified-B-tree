@@ -69,7 +69,16 @@ class LeafPage:
             return "OK", None # no such key
 
     def rangeQuery(self, rangeStart, rangeStop):
-        pass
+        result = []
+        for node in self.nodes:
+            if rangeStart <= node.value <= rangeStop:
+                result.append(node)
+        if result: # the search result is not empty
+            if self.ptrs[1] is not None:
+                result += self.ptrs[1].rangeQuery(rangeStart, rangeStop)
+            return result
+        else:
+            return result
 
     def isRoot(self):
         return True if self.parent is None else False
