@@ -130,5 +130,11 @@ class NonLeafPage():
         else:
             return len(self.nodes)
 
+    def pageStatistics(self, statistics):
+        statistics["nonLeafPage"] += 1
+        statistics["totalPage"] += 1
+        for page in self.ptrs:
+            page.pageStatistics(statistics)
+
     def __str__(self):
         return "{}".format(self.nodes)

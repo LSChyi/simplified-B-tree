@@ -89,6 +89,10 @@ class LeafPage:
         else:
             return True
 
+    def pageStatistics(self, statistics):
+        statistics["leafPage"] += 1
+        statistics["totalPage"] += 1
+
     def __str__(self):
         contentStr = "["
         for node in self.nodes:

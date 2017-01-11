@@ -34,6 +34,11 @@ class bPlusTree:
     def rangeQuery(self, rangeStart, rangeStop):
         return self.root.rangeQuery(5, 20)
 
+    def pageStatistics(self):
+        statistics = { "nonLeafPage": 0, "leafPage": 0, "totalPage": 0 }
+        self.root.pageStatistics(statistics)
+        return statistics
+
 if __name__ == "__main__":
     testTree = bPlusTree("integer")
     testTree.insert(LeafNode(7, 0, 1))
@@ -234,3 +239,6 @@ if __name__ == "__main__":
     nodes = testTree.rangeQuery(5, 20)
     for node in nodes:
         print(node)
+    print("")
+
+    print("test statistics: {}".format(testTree.pageStatistics()))
