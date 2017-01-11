@@ -22,10 +22,15 @@ class bPlusTree:
             self.root.ptrs.append(result[2])
             for page in self.root.ptrs:
                 page.parent = self.root
-            #print("root split, root: {}, left: {}, right: {}".format(self.root, self.root.ptrs[0], self.root.ptrs[1]))
+            print("root split, root: {}, left: {}, right: {}".format(self.root, self.root.ptrs[0], self.root.ptrs[1]))
 
     def delete(self, key):
-        pass
+        result = self.root.delete(key)
+        if result is not None:
+            if result is False: # no such key
+                return False
+            else: # need merge
+                pass
 
     def rangeQuery(self, rangeStart, rangeStop):
         pass
@@ -49,5 +54,30 @@ if __name__ == "__main__":
     testTree.insert(LeafNode(2, 0, 15))
     testTree.insert(LeafNode(3, 0, 16))
 
-    result = testTree.search(21)
-    print(result)
+    result = testTree.search(9)
+    print("result of find 9: {}".format(result))
+    result = testTree.search(100)
+    print("result of find 100: {}\n".format(result))
+
+    print("test simple delete case")
+    print(testTree.root.ptrs[1].ptrs[2])
+    testTree.delete(22)
+    print(testTree.root.ptrs[1].ptrs[2])
+    print("")
+
+    print("test delete with borrow from left case")
+    print("nonLeafNode: {}".format(testTree.root.ptrs[0]))
+    print("relevant leaf pages: {} {}".format(testTree.root.ptrs[0].ptrs[1], testTree.root.ptrs[0].ptrs[2]))
+    testTree.delete(8)
+    print("nonLeafNode: {}".format(testTree.root.ptrs[0]))
+    print("relevant leaf pages: {} {}".format(testTree.root.ptrs[0].ptrs[1], testTree.root.ptrs[0].ptrs[2]))
+    print("")
+
+    testTree.insert(LeafNode(4, 0, 17))
+    print("test delete with borrow from right case")
+    print("nonLeafNode: {}".format(testTree.root.ptrs[0]))
+    print("relevant leaf pages: {} {}".format(testTree.root.ptrs[0].ptrs[0], testTree.root.ptrs[0].ptrs[1]))
+    testTree.delete(2)
+    print("nonLeafNode: {}".format(testTree.root.ptrs[0]))
+    print("relevant leaf pages: {} {}".format(testTree.root.ptrs[0].ptrs[0], testTree.root.ptrs[0].ptrs[1]))
+    print("")
