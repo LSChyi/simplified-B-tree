@@ -11,7 +11,7 @@ class bPlusTree:
         self.root = LeafPage(self.order)
 
     def search(self, key):
-        pass
+        return self.root.search(key)
 
     def insert(self, record):
         result = self.root.insert(record)
@@ -48,3 +48,6 @@ if __name__ == "__main__":
     testTree.insert(LeafNode(1, 0, 14))
     testTree.insert(LeafNode(2, 0, 15))
     testTree.insert(LeafNode(3, 0, 16))
+
+    result = testTree.search(21)
+    print(result)

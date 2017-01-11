@@ -6,7 +6,15 @@ class NonLeafPage():
         self.parent = None
 
     def search(self, key):
-        pass
+        targetIdx = None
+        for idx, value in enumerate(self.nodes):
+            if key < value:
+                targetIdx = idx
+                break
+        else:
+            targetIdx = len(self.nodes)
+        targetPage = self.ptrs[targetIdx]
+        return targetPage.search(key)
 
     def insert(self, record):
         targetIdx = None

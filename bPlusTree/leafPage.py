@@ -6,7 +6,11 @@ class LeafPage:
         self.parent = None
 
     def search(self, key):
-        pass
+        for node in self.nodes:
+            if node.value == key:
+                return node
+        else:
+            return None
 
     def insert(self, record):
         self.nodes.append(record)
