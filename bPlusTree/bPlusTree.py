@@ -7,7 +7,10 @@ from leafNode import LeafNode
 class bPlusTree:
     def __init__(self, keyType):
         self.keyType = keyType
-        self.order =  2 # TODO, calculate real order depends on the keyType
+        if keyType == "Integer":
+            self.order = (508 // (8+4)) // 2
+        else: # keyType == "String"
+            self.order = (508 // (8+10)) // 2
         self.root = LeafPage(self.order)
 
     def search(self, key):
@@ -40,7 +43,7 @@ class bPlusTree:
         return statistics
 
 if __name__ == "__main__":
-    testTree = bPlusTree("integer")
+    testTree = bPlusTree("Integer")
     testTree.insert(LeafNode(7, 0, 1))
     testTree.insert(LeafNode(6, 0, 2))
     testTree.insert(LeafNode(8, 0, 3))
@@ -57,6 +60,8 @@ if __name__ == "__main__":
     testTree.insert(LeafNode(1, 0, 14))
     testTree.insert(LeafNode(2, 0, 15))
     testTree.insert(LeafNode(3, 0, 16))
+
+    print(testTree.order)
 
     result = testTree.search(9)
     print("result of find 9: {}".format(result))
