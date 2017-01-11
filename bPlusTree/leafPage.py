@@ -1,6 +1,6 @@
-class bPlusTree:
-    def __init__(self, keyType):
-        self.keyType = keyType
+class LeafPage:
+    def __init__(self, order):
+        pass
 
     def search(self, key):
         pass
