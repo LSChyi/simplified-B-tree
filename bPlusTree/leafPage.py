@@ -16,7 +16,6 @@ class LeafPage:
         self.nodes.append(record)
         self.nodes.sort(key=lambda x: x.value)
         if len(self.nodes) <= self.order * 2: # page not full, do simple insert
-            print(self)
             return None
         else: # page is full, should split. copy up middle value
             halfIdx = len(self.nodes)//2
@@ -28,7 +27,6 @@ class LeafPage:
             if newLeafPage.ptrs[1] is not None:
                 newLeafPage.ptrs[1].ptrs[0] = newLeafPage
             newLeafPage.parent = self.parent
-            print("ori: {}, new: {}".format(self, newLeafPage))
             return copyUpValue, self, newLeafPage
 
     def delete(self, key):

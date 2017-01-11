@@ -24,7 +24,6 @@ class NonLeafPage():
             self.nodes.insert(targetIdx, result[0])
             self.ptrs.insert(targetIdx+1, result[2])
             if len(self.nodes) <= self.order * 2: # the page is not full, simple insert case
-                print("nonLeafPgae: {}".format(self.nodes))
                 return None
             else: # the page overflow, push the middle value
                 halfIdx = len(self.nodes)//2
@@ -36,7 +35,6 @@ class NonLeafPage():
                 self.ptrs = self.ptrs[:halfIdx+1]
                 for page in newNonLeafPage.ptrs:
                     page.parent = newNonLeafPage
-                print("nonleaf page, ori: {}, new: {}".format(self.nodes, newNonLeafPage))
                 return pushUpValue, self, newNonLeafPage
 
     def delete(self, key):
