@@ -50,9 +50,23 @@ class NonLeafPage():
                 else: # the page borrowed from right page
                     self.nodes[targetIdx] = result[2]
                 return "OK", result[3]
-            else: # merge
-                # TODO
-                pass
+            else: # result[0] == merge
+                if result[1] == "left": # the page is merged with its left sibling
+                    self.nodes.pop(targetIdx-1)
+                else: # the page is merged with its right wibling
+                    self.nodes.pop(targetIdx)
+                self.ptrs.pop(targetIdx)
+                if self.isRoot(): # root page has no size contraint, but need to check whether size == 0
+                    if self.nodes: # node size == 0
+                        # TODO
+                        pass
+                    else:
+                        return "OK", result[2]
+                else:
+                    if len(self.nodes) < self.order:
+                        pass
+                    else:
+                        return "OK", result[2]
         else:
             return result
 

@@ -53,12 +53,18 @@ class LeafPage:
                         # no extra nodes can be borrowed, merge with sibling
                         if self.ptrs[0] is not None: # try to merge with left sibling
                             if self.parent == self.ptrs[0].parent:
-                                # TODO, merge with left page
-                                pass
+                                self.ptrs[0].nodes += self.nodes
+                                self.ptrs[0].ptrs[1] = self.ptrs[1]
+                                if self.ptrs[1] is not None:
+                                    self.ptrs[1].ptrs[0] = self.ptrs[0]
+                                return "merge", "left", deletedNode
                         if self.ptrs[1] is not None:
                             if self.parent == self.ptrs[1].parent:
-                                # TODO, merge with right page
-                                pass
+                                self.ptrs[1].nodes = self.nodes + self.ptrs[1].nodes
+                                self.ptrs[1].ptrs[0] = self.ptrs[0]
+                                if self.ptrs[0] is not None:
+                                    self.ptrs[0].ptrs[1] = self.ptrs[1]
+                                return "merge", "right", deletedNode
                     else: # the page node is enough, simply delete the node
                         return "OK", deletedNode
         else:
