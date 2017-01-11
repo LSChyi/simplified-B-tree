@@ -34,21 +34,21 @@ class LeafPage:
     def delete(self, key):
         for idx, node in enumerate(self.nodes):
             if node.value == key:
-                self.nodes.pop(idx)
+                deletedNode = self.nodes.pop(idx)
                 if self.isRoot(): # if the page is root, simply delete the node
-                    return None
+                    return "OK", deletedNode
                 else:
                     if len(self.nodes) < self.order: # violate b+ tree constraint, need redistribution
                         if self.ptrs[0] is not None: # try to borrow from left sibling
                             if self.ptrs[0].canBeBorrowed(self):
                                 borrowedNode = self.ptrs[0].nodes.pop(-1)
                                 self.nodes.insert(0, borrowedNode)
-                                return "borrow", "left", borrowedNode.value
+                                return "borrow", "left", borrowedNode.value, deletedNode
                         if self.ptrs[1] is not None: # try to borrow from right sibling
                             if self.ptrs[1].canBeBorrowed(self):
                                 borrowedNode = self.ptrs[1].nodes.pop(0)
                                 self.nodes.append(borrowedNode)
-                                return "borrow", "right", self.ptrs[1].nodes[0].value
+                                return "borrow", "right", self.ptrs[1].nodes[0].value, deletedNode
 
                         # no extra nodes can be borrowed, merge with sibling
                         if self.ptrs[0] is not None: # try to merge with left sibling
@@ -60,9 +60,9 @@ class LeafPage:
                                 # TODO, merge with right page
                                 pass
                     else: # the page node is enough, simply delete the node
-                        return None
+                        return "OK", deletedNode
         else:
-            return False # no such key
+            return "OK", None # no such key
 
     def rangeQuery(self, rangeStart, rangeStop):
         pass

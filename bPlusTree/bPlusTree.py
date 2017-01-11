@@ -26,11 +26,7 @@ class bPlusTree:
 
     def delete(self, key):
         result = self.root.delete(key)
-        if result is not None:
-            if result is False: # no such key
-                return False
-            else: # need merge
-                pass
+        return result[1]
 
     def rangeQuery(self, rangeStart, rangeStop):
         pass
@@ -68,7 +64,7 @@ if __name__ == "__main__":
     print("test delete with borrow from left case")
     print("nonLeafNode: {}".format(testTree.root.ptrs[0]))
     print("relevant leaf pages: {} {}".format(testTree.root.ptrs[0].ptrs[1], testTree.root.ptrs[0].ptrs[2]))
-    testTree.delete(8)
+    print("deleted node: {}".format(testTree.delete(8)))
     print("nonLeafNode: {}".format(testTree.root.ptrs[0]))
     print("relevant leaf pages: {} {}".format(testTree.root.ptrs[0].ptrs[1], testTree.root.ptrs[0].ptrs[2]))
     print("")
@@ -77,7 +73,7 @@ if __name__ == "__main__":
     print("test delete with borrow from right case")
     print("nonLeafNode: {}".format(testTree.root.ptrs[0]))
     print("relevant leaf pages: {} {}".format(testTree.root.ptrs[0].ptrs[0], testTree.root.ptrs[0].ptrs[1]))
-    testTree.delete(2)
+    print("deleted node: {}".format(testTree.delete(2)))
     print("nonLeafNode: {}".format(testTree.root.ptrs[0]))
     print("relevant leaf pages: {} {}".format(testTree.root.ptrs[0].ptrs[0], testTree.root.ptrs[0].ptrs[1]))
     print("")

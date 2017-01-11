@@ -43,18 +43,18 @@ class NonLeafPage():
         targetIdx = self.nextTraverseIdx(key)
         targetPage = self.ptrs[targetIdx]
         result = targetPage.delete(key)
-        if result is not None:
-            if result is False:
-                return False
-            elif result[0] == "borrow":
+        if result[0] is not "OK":
+            if result[0] == "borrow":
                 if result[1] == "left": # the page borrowed from left page
                     self.nodes[targetIdx-1] = result[2]
                 else: # the page borrowed from right page
                     self.nodes[targetIdx] = result[2]
-                return None
+                return "OK", result[3]
             else: # merge
                 # TODO
                 pass
+        else:
+            return result
 
     def rangeQuery(self, rangeStart, rangeStop):
         pass
