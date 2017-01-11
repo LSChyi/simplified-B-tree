@@ -26,7 +26,11 @@ class bPlusTree:
 
     def delete(self, key):
         result = self.root.delete(key)
-        return result[1]
+        if result[0] is not "OK": # can only be "change root"
+            self.root = result[1]
+            return result[2]
+        else:
+            return result[1]
 
     def rangeQuery(self, rangeStart, rangeStop):
         pass
@@ -89,8 +93,8 @@ if __name__ == "__main__":
     print("relevant leaf pages: {}".format(testTree.root.ptrs[1].ptrs[2]))
     print("")
 
-    testTree.insert(LeafNode(22, 0, 18))
-    testTree.insert(LeafNode(23, 0, 18))
+    testTree.insert(LeafNode(22, 0, 20))
+    testTree.insert(LeafNode(23, 0, 21))
     print("deleted node: {}".format(testTree.delete(13)))
     print("test delete with merge right page but no level reduce case")
     print("nonLeafNode: {}".format(testTree.root.ptrs[1]))
@@ -98,3 +102,102 @@ if __name__ == "__main__":
     print("deleted node: {}".format(testTree.delete(10)))
     print("nonLeafNode: {}".format(testTree.root.ptrs[1]))
     print("relevant leaf pages: {} {}".format(testTree.root.ptrs[1].ptrs[0], testTree.root.ptrs[1].ptrs[1]))
+
+    testTree.insert(LeafNode(10, 0, 22))
+    testTree.insert(LeafNode(12, 0, 23))
+    print("test delete with non-leaf node insufficient borrow from right case")
+    print("root: {}".format(testTree.root))
+    print("relevant nonLeafPages: {} {}".format(testTree.root.ptrs[0], testTree.root.ptrs[1]))
+    print("relevant leaf pages:")
+    for page in testTree.root.ptrs[0].ptrs:
+        print(page)
+    print("")
+    for page in testTree.root.ptrs[1].ptrs:
+        print(page)
+    print("deleted node: {}".format(testTree.delete(1)))
+    print("root: {}".format(testTree.root))
+    print("relevant nonLeafPages: {} {}".format(testTree.root.ptrs[0], testTree.root.ptrs[1]))
+    print("relevant leaf pages:")
+    for page in testTree.root.ptrs[0].ptrs:
+        print(page)
+    print("")
+    for page in testTree.root.ptrs[1].ptrs:
+        print(page)
+
+    testTree.insert(LeafNode(1, 0, 24))
+    testTree.insert(LeafNode(0, 0, 25))
+    testTree.insert(LeafNode(2, 0, 26))
+    print("test delete with non-leaf node insufficient borrow from left case")
+    print("root: {}".format(testTree.root))
+    print("relevant nonLeafPages: {} {}".format(testTree.root.ptrs[0], testTree.root.ptrs[1]))
+    print("relevant leaf pages:")
+    for page in testTree.root.ptrs[0].ptrs:
+        print(page)
+    print("")
+    for page in testTree.root.ptrs[1].ptrs:
+        print(page)
+    print("deleted node: {}".format(testTree.delete(15)))
+    print("deleted node: {}".format(testTree.delete(14)))
+    print("root: {}".format(testTree.root))
+    print("relevant nonLeafPages: {} {}".format(testTree.root.ptrs[0], testTree.root.ptrs[1]))
+    print("relevant leaf pages:")
+    for page in testTree.root.ptrs[0].ptrs:
+        print(page)
+    print("")
+    for page in testTree.root.ptrs[1].ptrs:
+        print(page)
+
+    ''' switch to test merge non-leaf node with right and left
+    print("test delete with non-leaf node insufficient merge with right case")
+    print("root: {}".format(testTree.root))
+    print("relevant nonLeafPages: {} {}".format(testTree.root.ptrs[0], testTree.root.ptrs[1]))
+    print("relevant leaf pages:")
+    for page in testTree.root.ptrs[0].ptrs:
+        print(page)
+    print("")
+    for page in testTree.root.ptrs[1].ptrs:
+        print(page)
+    print("deleted node: {}".format(testTree.delete(9)))
+    print("deleted node: {}".format(testTree.delete(6)))
+    print("root: {}".format(testTree.root))
+    print("relevant leaf pages:")
+    for page in testTree.root.ptrs:
+        print(page)
+    '''
+    print("test delete with non-leaf node insufficient merge with left case")
+    print("root: {}".format(testTree.root))
+    print("relevant nonLeafPages: {} {}".format(testTree.root.ptrs[0], testTree.root.ptrs[1]))
+    print("relevant leaf pages:")
+    for page in testTree.root.ptrs[0].ptrs:
+        print(page)
+    print("")
+    for page in testTree.root.ptrs[1].ptrs:
+        print(page)
+    print("deleted node: {}".format(testTree.delete(21)))
+    print("deleted node: {}".format(testTree.delete(11)))
+    print("root: {}".format(testTree.root))
+    print("relevant leaf pages:")
+    for page in testTree.root.ptrs:
+        print(page)
+    print("")
+
+    print("test delete to make root reduce to leaf page")
+    print("root: {}".format(testTree.root))
+    print("relevant leaf pages:")
+    for page in testTree.root.ptrs:
+        print(page)
+    print("deleted node: {}".format(testTree.delete(6)))
+    print("deleted node: {}".format(testTree.delete(9)))
+    print("deleted node: {}".format(testTree.delete(10)))
+    print("deleted node: {}".format(testTree.delete(12)))
+    print("deleted node: {}".format(testTree.delete(20)))
+    print("deleted node: {}".format(testTree.delete(22)))
+    print("deleted node: {}".format(testTree.delete(24)))
+    print("deleted node: {}".format(testTree.delete(23)))
+    print("deleted node: {}".format(testTree.delete(7)))
+    print("deleted node: {}".format(testTree.delete(4)))
+    print("deleted node: {}".format(testTree.delete(3)))
+    print("relevant leaf pages:")
+    print("root: {}".format(testTree.root))
+    for page in testTree.root.ptrs:
+        print(page)

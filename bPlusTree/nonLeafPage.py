@@ -50,23 +50,70 @@ class NonLeafPage():
                 else: # the page borrowed from right page
                     self.nodes[targetIdx] = result[2]
                 return "OK", result[3]
-            else: # result[0] == merge
+            elif result[0] == "merge":
                 if result[1] == "left": # the page is merged with its left sibling
                     self.nodes.pop(targetIdx-1)
-                else: # the page is merged with its right wibling
+                else: # the page is merged with its right sibling
                     self.nodes.pop(targetIdx)
                 self.ptrs.pop(targetIdx)
                 if self.isRoot(): # root page has no size contraint, but need to check whether size == 0
                     if self.nodes: # node size == 0
-                        # TODO
-                        pass
-                    else:
                         return "OK", result[2]
+                    else:
+                        self.ptrs[0].parent = None
+                        return "change root", self.ptrs[0], result[2]
                 else:
                     if len(self.nodes) < self.order:
-                        pass
+                        return "nonLeafNode insufficient", result[2]
                     else:
                         return "OK", result[2]
+            else: # result[0] == "nonLeafNode insufficient"
+                leftNonLeafPageIdx = targetIdx - 1
+                rightNonLeafPageIdx = targetIdx + 1
+                if leftNonLeafPageIdx >= 0: # check left non leaf page exist, if exist, try to borrow from it
+                    if len(self.ptrs[leftNonLeafPageIdx].nodes) > self.order:
+                        leftNonLeafPage = self.ptrs[leftNonLeafPageIdx] 
+                        targetPage.nodes.insert(0, self.nodes[targetIdx-1]) # change node value to borrowed node
+                        self.nodes[targetIdx-1] = leftNonLeafPage.nodes.pop(-1) # pop the borrowed node from left page
+                        targetPage.ptrs.insert(0, leftNonLeafPage.ptrs.pop(-1)) # prepend the pointer from left page
+                        targetPage.ptrs[0].parent = targetPage # change the parent of appended pointer to target page
+                        return "OK", result[1]
+                if rightNonLeafPageIdx < len(self.ptrs): # check right non leaf page exist, if exist, try to borrow from it
+                    if len(self.ptrs[rightNonLeafPageIdx].nodes) > self.order:
+                        rightNonLeafPage = self.ptrs[rightNonLeafPageIdx]
+                        targetPage.nodes.append(self.nodes[targetIdx]) # change node value to borrowed node
+                        self.nodes[targetIdx] = rightNonLeafPage.nodes.pop(0) # pop the borrowed node from right page
+                        targetPage.ptrs.append(rightNonLeafPage.ptrs.pop(0)) # append the pointer from right page
+                        targetPage.ptrs[-1].parent = targetPage # change the parent of appended pointer to target page
+                        return "OK", result[1]
+
+                # neither left or right non leaf page can lend node, do merge
+                if leftNonLeafPageIdx >= 0: # check left non leaf page exist, if exist, merge with it
+                    leftNonLeafPage = self.ptrs[leftNonLeafPageIdx]
+                    leftNonLeafPage.nodes.append(self.nodes.pop(targetIdx-1))
+                    leftNonLeafPage.nodes += targetPage.nodes
+                    leftNonLeafPage.ptrs += targetPage.ptrs
+                    for page in targetPage.ptrs:
+                        page.parent = leftNonLeafPage
+                else: # due to the properity of B+ tree, if no left non-leaf page, right non-leaf page must exist
+                    rightNonLeafPage = self.ptrs[rightNonLeafPageIdx]
+                    rightNonLeafPage.nodes.insert(0, self.nodes.pop(targetIdx))
+                    rightNonLeafPage.nodes = targetPage.nodes + rightNonLeafPage.nodes
+                    rightNonLeafPage.ptrs = targetPage.ptrs + rightNonLeafPage.ptrs
+                    for page in targetPage.ptrs:
+                        page.parent = rightNonLeafPage
+                self.ptrs.pop(targetIdx)
+                if self.isRoot(): # root page has no size contraint, but need to check whether size == 0
+                    if self.nodes:
+                        return "OK", result[1]
+                    else:
+                        self.ptrs[0].parent = None
+                        return "change root", self.ptrs[0], result[1]
+                else:
+                    if len(self.nodes) < self.order:
+                        return "NonLeafPage insufficient", result[1]
+                    else:
+                        return "OK", result[1]
         else:
             return result
 
