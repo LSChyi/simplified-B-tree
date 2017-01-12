@@ -55,7 +55,7 @@ class NonLeafPage():
                     self.nodes.pop(targetIdx)
                 self.ptrs.pop(targetIdx)
                 if self.isRoot(): # root page has no size contraint, but need to check whether size == 0
-                    if self.nodes: # node size == 0
+                    if self.nodes: # node size != 0
                         return "OK", result[2]
                     else:
                         self.ptrs[0].parent = None
@@ -85,7 +85,7 @@ class NonLeafPage():
                         targetPage.ptrs[-1].parent = targetPage # change the parent of appended pointer to target page
                         return "OK", result[1]
 
-                # neither left or right non leaf page can lend node, do merge
+                # neither left nor right non leaf page can lend node, do merge
                 if leftNonLeafPageIdx >= 0: # check left non leaf page exist, if exist, merge with it
                     leftNonLeafPage = self.ptrs[leftNonLeafPageIdx]
                     leftNonLeafPage.nodes.append(self.nodes.pop(targetIdx-1))
