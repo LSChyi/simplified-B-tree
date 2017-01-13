@@ -38,8 +38,17 @@ class Page:
         else:
             return None
 
+    def getRecord(self, idx):
+        return self.records[idx]
+
+    def delete(self, idx):
+        self.records[idx] = None
+
     def showContent(self):
-        print("Number of slots: {}, number of occupied slots: {} number of empty slots: {}".format(len(self.records), len([ x for x in self.records if x is not None ]), len([ x for x in self.records if x is None ])))
+        print("Number of slots: {}, number of occupied slots: {}, number of empty slots: {}".format(len(self.records), len([ x for x in self.records if x is not None ]), len([ x for x in self.records if x is None ])))
         print(" sid  key")
         for index, record in enumerate(self.records):
-            print("[{:>3}] {} {}".format(index, record[0], record[1:]))
+            if record is not None:
+                print("[{:>3}] {} {}".format(index, record[0], record[1:]))
+            else:
+                print("[{:>3}] {}".format(index, record))

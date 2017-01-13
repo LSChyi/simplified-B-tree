@@ -1,8 +1,6 @@
-#from bPlusTree.leafPage import LeafPage
-#from bPlusTree.nonLeafPage import NonLeafPage
-from leafPage import LeafPage
-from nonLeafPage import NonLeafPage
-from leafNode import LeafNode
+from bPlusTree.leafPage import LeafPage
+from bPlusTree.nonLeafPage import NonLeafPage
+from bPlusTree.leafNode import LeafNode
 
 class bPlusTree:
     def __init__(self, keyType):
@@ -11,6 +9,7 @@ class bPlusTree:
             self.order = (508 // (8+4)) // 2
         else: # keyType == "String"
             self.order = (508 // (8+10)) // 2
+        self.order = 2
         self.root = LeafPage(self.order)
 
     def search(self, key):
@@ -35,7 +34,7 @@ class bPlusTree:
             return result[1]
 
     def rangeQuery(self, rangeStart, rangeStop):
-        return self.root.rangeQuery(5, 20)
+        return self.root.rangeQuery(rangeStart, rangeStop)
 
     def pageStatistics(self):
         statistics = { "nonLeafPage": 0, "leafPage": 0, "totalPage": 0 }

@@ -9,9 +9,9 @@ class QueryInterface:
             "exit": Command("exit", "leave query interface", "", utils.emptyFn),
             "R": Command("R", "specify the name of the relation", "R, Relation-name, key-type, record-length", utils.RFn),
             "I": Command("I", "insert data, Could have multiple (key-value, record), separated by ';'", "I, Relation-name, key-value [; key-value]", utils.IFn),
-            "D": Command("D", "delete record", "D, Relation-name, key-value", utils.emptyFn),
-            "Scan": Command("Scan", "scan index file", "Scan Relation-name", utils.emptyFn),
-            "q": Command("q", "single vaule index search and range query", "single value: q Relation-name key-value\nrange query: q Relation-name key-value1 key-value2", utils.emptyFn),
+            "D": Command("D", "delete record", "D, Relation-name, key-value", utils.DFn),
+            "Scan": Command("Scan", "scan index file", "Scan Relation-name", utils.ScanFn),
+            "q": Command("q", "single vaule index search and range query", "single value: q Relation-name key-value\nrange query: q Relation-name key-value1 key-value2", utils.qFn),
             "p": Command("p", "display data page of a relation/table", "p relation-name page-id", utils.pFn),
             "c": Command("c", "file, index statistics", "c relation-name", utils.cFn),
         }

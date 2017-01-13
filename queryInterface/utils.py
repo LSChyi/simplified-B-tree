@@ -68,6 +68,63 @@ def IFn(*params):
 
     print("{} record(s) stored".format(len(dataToInsert)))
 
+def DFn(*params):
+    commandParams = params[0]
+    databaseTables = params[1]
+
+    if len(commandParams) != 2:
+        print("number of parameters not match")
+        return
+
+    tableName = commandParams[0]
+    for dataTable in databaseTables:
+        if tableName == dataTable.name:
+            dataTable.delete(commandParams[1])
+            return
+    else:
+        print("relation table '{}' not found".format(tableName))
+        return
+
+def ScanFn(*params):
+    commandParams = params[0]
+    databaseTables = params[1]
+
+    if len(commandParams) != 1:
+        print("number of parameters not match")
+        return
+    
+    tableName = commandParams[0]
+    for dataTable in databaseTables:
+        if tableName == dataTable.name:
+            dataTable.showIndexStatistics()
+            return
+    else:
+        print("relation table '{}' not found".format(tableName))
+        return
+
+def qFn(*params):
+    commandParams = params[0]
+    databaseTables = params[1]
+
+    if len(commandParams) != 2 and len(commandParams) != 3:
+        print("number of parameters not match")
+        return
+
+    tableName = commandParams[0]
+    table = None
+    for dataTable in databaseTables:
+        if tableName == dataTable.name:
+            table = dataTable
+            break
+    else:
+        print("relation table '{}' not found".format(tableName))
+        return
+
+    if len(commandParams) == 2:
+        table.search(commandParams[1])
+    else:
+        table.rangeQuery(commandParams[1], commandParams[2])
+
 def pFn(*params):
     commandParams = params[0]
     databaseTables = params[1]

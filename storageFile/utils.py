@@ -1,5 +1,5 @@
-def getSize(record):
-    cumulateSize = 4 # 4 byte is for rid
+def restSize(record):
+    cumulateSize = 0
     for val in record[1:]:
         if val[0] == "\"" and val[-1] == "\"": # is a double quoted string
             cumulateSize += len(val) - 2 # a char size = 1 byte
