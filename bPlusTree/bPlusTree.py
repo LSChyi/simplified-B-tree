@@ -35,7 +35,7 @@ class bPlusTree:
             return result[1]
 
     def rangeQuery(self, rangeStart, rangeStop):
-        return self.root.rangeQuery(5, 20)
+        return self.root.rangeQuery(rangeStart, rangeStop)
 
     def pageStatistics(self):
         statistics = { "nonLeafPage": 0, "leafPage": 0, "totalPage": 0 }
