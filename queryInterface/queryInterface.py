@@ -17,6 +17,20 @@ class QueryInterface:
         }
         self.relationTables = relationTables
 
+    def runScript(self, script):
+        for line in script:
+            print(line)
+            parsedStr = re.split(r',|\s|(".+?")|(\'.+?\')', line)
+            parsedStr = [ s for s in parsedStr if s is not None and s is not '' ]
+            if parsedStr:
+                command = parsedStr[0]
+                params = parsedStr[1:]
+                if command not in self.commands:
+                    print("The command '{}' does not support!".format(command))
+                else:
+                    self.commands[command].doIt(params, self.relationTables)
+            print("")
+
     def run(self):
         self.greet()
         inputStr = ""
