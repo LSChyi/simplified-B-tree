@@ -83,6 +83,7 @@ class RelationTable:
         records = self.bPlusTree.rangeQuery(rangeStart, rangeStop)
         for record in records:
             print("key: {}, RID: {}".format(record.value, record.rid()))
+        print("total records: {}".format(len(records)))
 
     def delete(self, key):
         if self.keyType == "String":
