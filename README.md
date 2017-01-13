@@ -8,6 +8,12 @@ This project is using python3, so to run the query interface:
 
 	pyton3 run.py
 	
+You can also run a script first, then enter the query interface, ex:
+
+	python 3 run.py testcase
+	
+where testcase is the file name
+	
 # Query Interface
 The query interface has following commands:  
 
