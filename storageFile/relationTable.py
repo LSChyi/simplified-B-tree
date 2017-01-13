@@ -100,8 +100,8 @@ class RelationTable:
             print("no record found, no deletion")
             return
         
-        self.pages[record.pid].delete(record.sid)
-        print("record deleted: {} with rid {}".format(record.value, record.rid()))
+        key = self.pages[record.pid].delete(record.sid)
+        print("record deleted: {} with rid {}".format(key, record.rid()))
 
     def showPageContent(self, pageId):
         if 0 <= pageId < len(self.pages):

@@ -4,7 +4,8 @@ class Page:
     def __init__(self, recordSize):
         self.recordSize = recordSize
         self.records = []
-        self.emptySize = 512 - 4 # a int for tracking how many records inside this page
+        self.emptySize = 512 - 4 # a int is for tracking how many records inside this page
+        self.maxSlotN = self.emptySize // (self.recordSize + 2)
 
     @staticmethod
     def isValidSize(size):
@@ -24,15 +25,14 @@ class Page:
             return True
 
     def insert(self, record):
-        sid = None
-        if self.emptySize >= self.recordSize:
-            self.emptySize -= (self.recordSize + 4)
-            if None in self.records:
-                sid = self.records.index(None)
-                self.records[sid] = record
-            else:
+        if self.emptySize >= (self.recordSize + 2):
+            self.emptySize -= (self.recordSize + 2)
+            if len(self.records) < self.maxSlotN:
                 sid = len(self.records)
                 self.records.append(record)
+            else:
+                sid = self.records.index(None)
+                self.records[sid] = record
 
             return sid 
         else:
@@ -42,7 +42,10 @@ class Page:
         return self.records[idx]
 
     def delete(self, idx):
+        key = self.records[idx][0]
         self.records[idx] = None
+        self.emptySize += (self.recordSize + 2)
+        return key
 
     def showContent(self):
         print("Number of slots: {}, number of occupied slots: {}, number of empty slots: {}".format(len(self.records), len([ x for x in self.records if x is not None ]), len([ x for x in self.records if x is None ])))
