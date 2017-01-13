@@ -24,14 +24,15 @@ class QueryInterface:
             inputStr = input("query> ")
             parsedStr = re.split(r',|\s|(".+?")|(\'.+?\')', inputStr)
             parsedStr = [ s for s in parsedStr if s is not None and s is not '' ]
-            command = parsedStr[0]
-            params = parsedStr[1:]
-            if command not in self.commands:
-                print("The command '{}' does not support!".format(command))
-            else:
-                self.commands[command].doIt(params, self.relationTables)
+            if parsedStr:
+                command = parsedStr[0]
+                params = parsedStr[1:]
+                if command not in self.commands:
+                    print("The command '{}' does not support!".format(command))
+                else:
+                    self.commands[command].doIt(params, self.relationTables)
 
-            print("")
+                print("")
             
         print("Bye")
 
