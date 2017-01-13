@@ -58,9 +58,13 @@ def IFn(*params):
     for row in dataStrRows:
         parsedData = re.split(r'\s|(".+?")', row)
         parsedData = [ s for s in parsedData if s is not None and s is not '' ]
-        if table.insertable(parsedData):
-            dataToInsert.append(parsedData)
+        if parsedData:
+            if table.insertable(parsedData):
+                dataToInsert.append(parsedData)
+            else:
+                return
         else:
+            print("no insert data")
             return
 
     for data in dataToInsert:
