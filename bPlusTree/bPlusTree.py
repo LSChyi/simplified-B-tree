@@ -9,7 +9,6 @@ class bPlusTree:
             self.order = (508 // (8+4)) // 2
         else: # keyType == "String"
             self.order = (508 // (8+10)) // 2
-        self.order = 2
         self.root = LeafPage(self.order)
 
     def search(self, key):
